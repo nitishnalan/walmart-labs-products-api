@@ -11,7 +11,7 @@ import javax.persistence.*;
         })
 public class Product {
 
-    public Product(){};
+    public Product(){}
 
     @Id
     private String productId;
@@ -23,7 +23,7 @@ public class Product {
     @Column(length = 5000)
     private String longDescription;
 
-    // TODO: 6/4/2019 check the conversion of the price
+
     private String price;
     private String productImage;
 
