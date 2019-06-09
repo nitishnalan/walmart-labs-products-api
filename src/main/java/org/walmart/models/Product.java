@@ -1,11 +1,14 @@
 package org.walmart.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "products_master")
+@Table(name = "products_master",
+        indexes = {
+            @Index(name = "INDEX_PRODUCT_NAME", columnList = "productName"),
+            @Index(name = "INDEX_PRODUCT_SHORT_DESC", columnList = "shortDescription"),
+            @Index(name = "INDEX_PRODUCT_LONG_DESC", columnList = "longDescription")
+        })
 public class Product {
 
     public Product(){};
@@ -13,12 +16,26 @@ public class Product {
     @Id
     private String productId;
     private String productName;
+
+    @Column(length = 1000)
     private String shortDescription;
+
+    @Column(length = 5000)
     private String longDescription;
 
     // TODO: 6/4/2019 check the conversion of the price
     private String price;
     private String productImage;
+
+    private Float priceFloat;
+
+    public Float getPriceFloat() {
+        return priceFloat;
+    }
+
+    public void setPriceFloat(Float priceFloat) {
+        this.priceFloat = priceFloat;
+    }
 
     private float reviewRating;
     private int reviewCount;

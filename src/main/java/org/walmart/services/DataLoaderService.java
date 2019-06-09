@@ -75,8 +75,8 @@ public class DataLoaderService {
         }
 
         if(product != null && product.getPrice() != null){
-            String sanitizedPrice = product.getPrice().replace("$","");
-            product.setPrice(sanitizedPrice);
+            String sanitizedPrice = product.getPrice().replaceAll("[,$]","");
+            product.setPriceFloat(Float.parseFloat(sanitizedPrice));
         }
 
         return product;
