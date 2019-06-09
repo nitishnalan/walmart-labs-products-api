@@ -4,32 +4,34 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 public class SearchAndFilterRequest {
+    public SearchAndFilterRequest() {
+    }
 
     private String search;
 
     @Min(message="Minimum price can be 0", value=0)
-    private float minPrice;
+    private Float minPrice;
 
     @Min(value=0)
-    private float maxPrice;
+    private Float maxPrice;
 
     @Min(message = "Minimum review rating can be 0", value = 0)
     @Max(message= "Maximum review rating can be 5", value = 5)
-    private int minReviewRating;
+    private Integer minReviewRating;
 
     @Min(message = "Minimum review rating can be 0", value = 0)
     @Max(message= "Maximum review rating can be 5", value = 5)
-    private int maxReviewRating;
+    private Integer maxReviewRating;
 
     @Min(message= "Minimum review rating can be 0", value = 0)
-    private int minReviewCount;
+    private Integer minReviewCount;
 
     @Min(message= "Minimum review rating can be 0", value = 0)
-    private int maxReviewCount;
+    private Integer maxReviewCount;
 
-    private boolean inStock;
+    private Boolean inStock;
 
-    public SearchAndFilterRequest(String search, @Min(message = "Minimum price can be 0", value = 0) float minPrice, @Min(value = 0) float maxPrice, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) int minReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) int maxReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) int minReviewCount, @Min(message = "Minimum review rating can be 0", value = 0) int maxReviewCount, boolean inStock) {
+    public SearchAndFilterRequest(String search, @Min(message = "Minimum price can be 0", value = 0) Float minPrice, @Min(value = 0) Float maxPrice, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Integer minReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Integer maxReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) Integer minReviewCount, @Min(message = "Minimum review rating can be 0", value = 0) Integer maxReviewCount, Boolean inStock) {
         this.search = search;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
@@ -48,59 +50,73 @@ public class SearchAndFilterRequest {
         this.search = search;
     }
 
-    public float getMinPrice() {
+    public Float getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(float minPrice) {
+    public void setMinPrice(Float minPrice) {
         this.minPrice = minPrice;
     }
 
-    public float getMaxPrice() {
+    public Float getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(float maxPrice) {
+    public void setMaxPrice(Float maxPrice) {
         this.maxPrice = maxPrice;
     }
 
-    public int getMinReviewRating() {
+    public Integer getMinReviewRating() {
         return minReviewRating;
     }
 
-    public void setMinReviewRating(int minReviewRating) {
+    public void setMinReviewRating(Integer minReviewRating) {
         this.minReviewRating = minReviewRating;
     }
 
-    public int getMaxReviewRating() {
+    public Integer getMaxReviewRating() {
         return maxReviewRating;
     }
 
-    public void setMaxReviewRating(int maxReviewRating) {
+    public void setMaxReviewRating(Integer maxReviewRating) {
         this.maxReviewRating = maxReviewRating;
     }
 
-    public int getMinReviewCount() {
+    public Integer getMinReviewCount() {
         return minReviewCount;
     }
 
-    public void setMinReviewCount(int minReviewCount) {
+    public void setMinReviewCount(Integer minReviewCount) {
         this.minReviewCount = minReviewCount;
     }
 
-    public int getMaxReviewCount() {
+    public Integer getMaxReviewCount() {
         return maxReviewCount;
     }
 
-    public void setMaxReviewCount(int maxReviewCount) {
+    public void setMaxReviewCount(Integer maxReviewCount) {
         this.maxReviewCount = maxReviewCount;
     }
 
-    public boolean isInStock() {
+    public Boolean getInStock() {
         return inStock;
     }
 
-    public void setInStock(boolean inStock) {
+    public void setInStock(Boolean inStock) {
         this.inStock = inStock;
+    }
+
+    @Override
+    public String toString() {
+        return "SearchAndFilterRequest{" +
+                "search='" + search + '\'' +
+                ", minPrice=" + minPrice +
+                ", maxPrice=" + maxPrice +
+                ", minReviewRating=" + minReviewRating +
+                ", maxReviewRating=" + maxReviewRating +
+                ", minReviewCount=" + minReviewCount +
+                ", maxReviewCount=" + maxReviewCount +
+                ", inStock=" + inStock +
+                '}';
     }
 }
