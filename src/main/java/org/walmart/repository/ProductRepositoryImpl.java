@@ -45,14 +45,47 @@ public class ProductRepositoryImpl {
             Predicate predicateLongDescription = criteriaBuilder.like(expressionProductLongDescription, queryParameters);
 
 
-            Predicate searchString = criteriaBuilder.or(predicateProductName, predicateShortDescription, predicateLongDescription);
+            Predicate searchStringPredicate = criteriaBuilder.or(predicateProductName, predicateShortDescription, predicateLongDescription);
 
-            productQuery.where(searchString);
-
+            predicateListForQuery.add(searchStringPredicate);
 
         }
 
-        return entityManager.createQuery(productQuery.select(productQueryRoot)).getResultList();
+        if(searchAndFilterRequestObj.getMinPrice() != null){
+            predicateListForQuery.add(criteriaBuilder.greaterThanOrEqualTo(productQueryRoot.get("priceFloat"), searchAndFilterRequestObj.getMinPrice()));
+        }
+
+        if(searchAndFilterRequestObj.getMaxPrice() != null){
+            predicateListForQuery.add(criteriaBuilder.lessThanOrEqualTo(productQueryRoot.get("priceFloat"), searchAndFilterRequestObj.getMaxPrice()));
+        }
+
+        if(searchAndFilterRequestObj.getMinReviewRating() != null){
+            predicateListForQuery.add(criteriaBuilder.greaterThanOrEqualTo(productQueryRoot.get("reviewRating"), searchAndFilterRequestObj.getMinReviewRating()));
+        }
+
+        if(searchAndFilterRequestObj.getMaxReviewRating() != null){
+            predicateListForQuery.add(criteriaBuilder.lessThanOrEqualTo(productQueryRoot.get("reviewRating"), searchAndFilterRequestObj.getMaxReviewRating()));
+        }
+
+        if(searchAndFilterRequestObj.getMaxReviewCount() != null){
+            predicateListForQuery.add(criteriaBuilder.lessThanOrEqualTo(productQueryRoot.get("reviewCount"), searchAndFilterRequestObj.getMaxReviewCount()));
+        }
+
+        if(searchAndFilterRequestObj.getMinReviewCount() != null){
+            predicateListForQuery.add(criteriaBuilder.greaterThanOrEqualTo(productQueryRoot.get("reviewCount"), searchAndFilterRequestObj.getMinReviewCount()));
+        }
+
+        if(searchAndFilterRequestObj.getInStock() != null){
+            predicateListForQuery.add(criteriaBuilder.equal(productQueryRoot.get("inStock"), searchAndFilterRequestObj.getInStock()));
+        }
+
+        if(predicateListForQuery.isEmpty()){
+            return Collections.EMPTY_LIST;
+        }
+
+         productQuery.where(criteriaBuilder.and(predicateListForQuery.toArray(new Predicate[0])));
+         return entityManager.createQuery(productQuery.select(productQueryRoot)).getResultList();
+
     }
 
 }
