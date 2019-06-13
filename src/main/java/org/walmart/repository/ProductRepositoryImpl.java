@@ -1,6 +1,5 @@
 package org.walmart.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.walmart.models.Product;
 import org.walmart.models.SearchAndFilterRequest;
@@ -13,18 +12,16 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class ProductRepositoryImpl {
+public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
     @PersistenceContext
     private EntityManager entityManager;
 
+    public ProductRepositoryImpl(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
+
     public List getSearchAndFilteredProducts(SearchAndFilterRequest searchAndFilterRequestObj){
-
-//        StringBuilder queryBuilder = new StringBuilder();
-//
-//        String selectQuery
-
-
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> productQuery = criteriaBuilder.createQuery(Product.class);
