@@ -1,41 +1,50 @@
 package org.walmart.services;
 
+import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.walmart.models.Product;
 import org.walmart.models.RestClientProducts;
 import org.walmart.repository.ProductRepository;
-import org.jsoup.Jsoup;
-import javax.annotation.PostConstruct;
+
 import java.nio.charset.Charset;
 
 @Component
 public class DataLoaderService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataLoaderService.class);
-    private static final String dataLoaderUrl = "https://mobile-tha-server.firebaseapp.com/";
+    private static final Logger logger = LoggerFactory.getLogger(DataLoaderService.class);
+    private static final String DATA_LOADER_URL = "https://mobile-tha-server.firebaseapp.com/";
     private static final String PRODUCT_URL = "walmartproducts";
-    private RestTemplate restTemplate;
+
+
+    public RestTemplate restTemplate;
 
 
 
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CacheManager cachingManager;
+
 
     @Autowired
     public DataLoaderService(RestTemplate restTemplate){
+
         this.restTemplate = restTemplate;
     }
 
-    @PostConstruct
+//    @PostConstruct
     //will use this class to make REST call to Firebase repository and initialize our database
+    @Scheduled(fixedRate = 3360000)
     public void initDataLoader() throws Exception {
-        System.out.println("DataLoader class has been called!");
+        logger.info("DataLoaderService is initialized..");
 
         boolean stopFlag = false;
         int pageCounter = 1;
@@ -47,9 +56,10 @@ public class DataLoaderService {
 
             if (restClientProducts.getProducts().size() != 0) {
                 for (Product product : restClientProducts.getProducts()) {
-                    LOGGER.info("Inserting data with the ProductId : {}", product.getProductId());
+                    logger.info("Inserting data with the ProductId : {}", product.getProductId());
 
                     product = sanitizeProductData(product);
+
 
                     productRepository.save(product);
                 }
@@ -58,11 +68,18 @@ public class DataLoaderService {
             } else {
                 stopFlag = true;
             }
-
         }
+
+        clearCacheOfProducts();
     }
 
-    private Product sanitizeProductData(Product product) {
+    private void clearCacheOfProducts() {
+        logger.info("Clear caching of products data!");
+        cachingManager.getCache("cacheProducts").clear();
+        logger.info("Products cache has beed cleared!");
+    }
+
+    public Product sanitizeProductData(Product product) {
 
         if(product != null && product.getLongDescription()!=null){
             String sanitizedLongDescription = convertHtmlToText(product.getLongDescription());
@@ -84,7 +101,7 @@ public class DataLoaderService {
 
     public RestClientProducts fetchRestClientProducts(int pageCounter, int productCount){
         StringBuilder dataLoaderUrlBuilder = new StringBuilder();
-        dataLoaderUrlBuilder.append(dataLoaderUrl).append(PRODUCT_URL).append("/").append(pageCounter).append("/").append(productCount);
+        dataLoaderUrlBuilder.append(DATA_LOADER_URL).append(PRODUCT_URL).append("/").append(pageCounter).append("/").append(productCount);
         RestClientProducts restClientProducts = new RestClientProducts();
         String restClientUrl = dataLoaderUrlBuilder.toString();
 
@@ -92,8 +109,8 @@ public class DataLoaderService {
             restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
             restClientProducts = restTemplate.getForObject(restClientUrl, RestClientProducts.class);
         }catch(Exception e){
-            LOGGER.error("Error connecting to Walmart Rest Client");
-            LOGGER.error(e.toString());
+            logger.error("Error connecting to Walmart Rest Client");
+            logger.error(e.toString());
         }
 
         return restClientProducts;
