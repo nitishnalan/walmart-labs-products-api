@@ -1,6 +1,7 @@
 package org.walmart.controllers;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,15 +16,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.walmart.models.SearchAndFilterRequest;
 import org.walmart.repository.ProductRepository;
 
 import java.util.Collections;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @RunWith(SpringRunner.class)
@@ -53,17 +57,18 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_withCorrectInStockParameter_thenOkResponse() throws Exception{
+    public void whenSearchClient_withCorrectInStockParameter_thenOkResponse(){
 
         try{
             ObjectMapper objectMapper = new ObjectMapper();
 
             when(productRepository.getSearchAndFilteredProducts(searchAndFilterRequestObj)).thenReturn(Collections.emptyList());
-//            mockMvc.perform(post("/searchClient").content("{\"inStock\":\"true\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
-//                    andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 
-            mockMvc.perform(post("/searchClient").content(objectMapper.writeValueAsString(searchAndFilterRequestObj)).contentType(MediaType.APPLICATION_JSON_UTF8)).
-                    andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
+            MultiValueMap multiValueMapSearachAndFilterRequest = new LinkedMultiValueMap<String, String>();
+            Map<String, String> maps = objectMapper.convertValue(searchAndFilterRequestObj, new TypeReference<Map<String, String>>() {});
+            multiValueMapSearachAndFilterRequest.setAll(maps);
+
+            mockMvc.perform(get("/searchClient").params(multiValueMapSearachAndFilterRequest).contentType(MediaType.APPLICATION_JSON_UTF8)).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 
             verify(productRepository).getSearchAndFilteredProducts(refEq(searchAndFilterRequestObj));
 
@@ -74,10 +79,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_withInCorrectInStockParameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_withInCorrectInStockParameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"inStock\":\"yes\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("inStock","yes").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -87,10 +92,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_withInCorrect_minPrice_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_withInCorrect_minPrice_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"minPrice\":\"-1\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("minPrice","-1").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -100,10 +105,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_withCorrect_minPrice_Parameter_thenOkResponse() throws Exception{
+    public void whenSearchClient_withCorrect_minPrice_Parameter_thenOkResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"minPrice\":\"5\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("minPrice","5").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 
         }catch (Exception e){
@@ -113,10 +118,11 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_withCorrect_minPrice_andInCorrect_maxPrice_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_withCorrect_minPrice_andInCorrect_maxPrice_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"minPrice\":\"5\",\"maxPrice\":\"-1\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("minPrice","5")
+                    .param("maxPrice","-1").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -126,10 +132,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_inCorrect_minReviewRating_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_inCorrect_minReviewRating_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"minReviewRating\":\"-1\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("minReviewRating","-1").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -139,10 +145,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_inCorrect_maxReviewRating_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_inCorrect_maxReviewRating_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"maxReviewRating\":\"6\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("maxReviewRating","6").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -152,10 +158,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_inCorrect_minReviewCount_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_inCorrect_minReviewCount_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"minReviewCount\":\"-1\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("minReviewCount","-1").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
@@ -165,10 +171,10 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void whenSearchClient_inCorrect_maxReviewCount_Parameter_thenBadResponse() throws Exception{
+    public void whenSearchClient_inCorrect_maxReviewCount_Parameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(post("/searchClient").content("{\"maxReviewCount\":\"-1\"}").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("maxReviewCount","-1").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){
