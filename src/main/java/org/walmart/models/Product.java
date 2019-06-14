@@ -37,11 +37,11 @@ public class Product {
         this.priceFloat = priceFloat;
     }
 
-    private float reviewRating;
+    private Double reviewRating;
     private int reviewCount;
     private boolean inStock;
 
-    public Product(String productId, String productName, String shortDescription, String longDescription, String price, String productImage, float reviewRating, int reviewCount, boolean inStock) {
+    public Product(String productId, String productName, String shortDescription, String longDescription, String price, String productImage, Double reviewRating, int reviewCount, boolean inStock) {
         this.productId = productId;
         this.productName = productName;
         this.shortDescription = shortDescription;
@@ -101,11 +101,11 @@ public class Product {
         this.productImage = productImage;
     }
 
-    public float getReviewRating() {
+    public Double getReviewRating() {
         return reviewRating;
     }
 
-    public void setReviewRating(float reviewRating) {
+    public void setReviewRating(Double reviewRating) {
         this.reviewRating = reviewRating;
     }
 
