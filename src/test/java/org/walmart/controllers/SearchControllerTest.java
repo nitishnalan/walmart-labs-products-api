@@ -53,7 +53,7 @@ public class SearchControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(searchClientController).build();
 
         searchAndFilterRequestObj = new SearchAndFilterRequest("",(float)0,(float)0,
-                                0,0,0,0, true);
+                                0.0,0.0,0,0, true);
     }
 
     @Test
@@ -64,11 +64,11 @@ public class SearchControllerTest {
 
             when(productRepository.getSearchAndFilteredProducts(searchAndFilterRequestObj)).thenReturn(Collections.emptyList());
 
-            MultiValueMap multiValueMapSearachAndFilterRequest = new LinkedMultiValueMap<String, String>();
+            MultiValueMap multiValueMapSearchAndFilterRequest = new LinkedMultiValueMap<String, String>();
             Map<String, String> maps = objectMapper.convertValue(searchAndFilterRequestObj, new TypeReference<Map<String, String>>() {});
-            multiValueMapSearachAndFilterRequest.setAll(maps);
+            multiValueMapSearchAndFilterRequest.setAll(maps);
 
-            mockMvc.perform(get("/searchClient").params(multiValueMapSearachAndFilterRequest).contentType(MediaType.APPLICATION_JSON_UTF8)).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
+            mockMvc.perform(get("/searchClient").params(multiValueMapSearchAndFilterRequest).contentType(MediaType.APPLICATION_JSON_UTF8)).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 
             verify(productRepository).getSearchAndFilteredProducts(refEq(searchAndFilterRequestObj));
 
@@ -82,7 +82,7 @@ public class SearchControllerTest {
     public void whenSearchClient_withInCorrectInStockParameter_thenBadResponse(){
 
         try{
-            mockMvc.perform(get("/searchClient").param("inStock","yes").contentType(MediaType.APPLICATION_JSON_UTF8)).
+            mockMvc.perform(get("/searchClient").param("inStock","hello").contentType(MediaType.APPLICATION_JSON_UTF8)).
                     andDo(print()).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         }catch (Exception e){

@@ -11,7 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.walmart.models.SearchAndFilterRequest;
-import org.walmart.repository.ProductRepositoryImpl;
+import org.walmart.repository.ProductRepository;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,8 +23,7 @@ public class SearchClientController {
     private static final Logger logger = LoggerFactory.getLogger(SearchClientController.class);
 
     @Autowired
-    ProductRepositoryImpl productRepositoryImpl;
-
+    ProductRepository productRepository;
 
     @GetMapping("/searchClient")
     @Cacheable(value = "cacheProducts", key = "#searchAndFilterRequestBody.toString()")
@@ -46,7 +45,7 @@ public class SearchClientController {
             return new ResponseEntity<>(validationErrorMessage,HttpStatus.BAD_REQUEST);
         }
 
-        List<Object> resultSet = productRepositoryImpl.getSearchAndFilteredProducts(searchAndFilterRequestBody);
+        List<Object> resultSet = productRepository.getSearchAndFilteredProducts(searchAndFilterRequestBody);
 
         if(resultSet == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

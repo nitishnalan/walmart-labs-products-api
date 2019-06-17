@@ -73,7 +73,7 @@ public class ProductRepositoryImplTest extends RestApiApplicationTests {
     @Test
     public void getSearchAndFilterProductsTest(){
         SearchAndFilterRequest searchAndFilterRequestObj = new SearchAndFilterRequest("TV", (float) 0, (float) 50,
-                        0, 5, 1, null , true);
+                        0.0, 5.0, 1, null , true);
         List<Product> testResult = productRepository.getSearchAndFilteredProducts(searchAndFilterRequestObj);
 
         Assert.assertEquals(testResult.size(), 13);

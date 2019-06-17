@@ -17,11 +17,11 @@ public class SearchAndFilterRequest {
 
     @Min(message = "Minimum review rating can only be greater than or equal to 0", value = 0)
     @Max(message= "Maximum review rating can be 5", value = 5)
-    private Integer minReviewRating;
+    private Double minReviewRating;
 
     @Min(message = "Minimum review rating can only be greater than or equal to 0", value = 0)
     @Max(message= "Maximum review rating can only be 5", value = 5)
-    private Integer maxReviewRating;
+    private Double maxReviewRating;
 
     @Min(message= "Minimum review count can start with 0", value = 0)
     private Integer minReviewCount;
@@ -31,7 +31,7 @@ public class SearchAndFilterRequest {
 
     private Boolean inStock;
 
-    public SearchAndFilterRequest(String search, @Min(message = "Minimum price can be 0", value = 0) Float minPrice, @Min(value = 0) Float maxPrice, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Integer minReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Integer maxReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) Integer minReviewCount, @Min(message = "Minimum review rating can be 0", value = 0) Integer maxReviewCount, Boolean inStock) {
+    public SearchAndFilterRequest(String search, @Min(message = "Minimum price can be 0", value = 0) Float minPrice, @Min(value = 0) Float maxPrice, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Double minReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) @Max(message = "Maximum review rating can be 5", value = 5) Double maxReviewRating, @Min(message = "Minimum review rating can be 0", value = 0) Integer minReviewCount, @Min(message = "Minimum review rating can be 0", value = 0) Integer maxReviewCount, Boolean inStock) {
         this.search = search;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
@@ -66,19 +66,19 @@ public class SearchAndFilterRequest {
         this.maxPrice = maxPrice;
     }
 
-    public Integer getMinReviewRating() {
+    public Double getMinReviewRating() {
         return minReviewRating;
     }
 
-    public void setMinReviewRating(Integer minReviewRating) {
+    public void setMinReviewRating(Double minReviewRating) {
         this.minReviewRating = minReviewRating;
     }
 
-    public Integer getMaxReviewRating() {
+    public Double getMaxReviewRating() {
         return maxReviewRating;
     }
 
-    public void setMaxReviewRating(Integer maxReviewRating) {
+    public void setMaxReviewRating(Double maxReviewRating) {
         this.maxReviewRating = maxReviewRating;
     }
 
