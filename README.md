@@ -1,9 +1,5 @@
 # Rest Client API Application
 
-# Prerequisite for this project
-  - Java version 8
-  - Maven
-  
 # Project Task
 
 Take a look at https://mobile-tha-server.firebaseapp.com/. The endpoint returns a list of products. 
@@ -55,6 +51,28 @@ Please create a repo for your project. Please keep it tidy as we will go over yo
    8. API documentation: <br/>
    - I have added Swagger documentation. You can refer the documentation here : http://localhost:8080/walmartlabsapi/swagger-ui.html#/search-client-controller
    
+# Architecture Diagram:
+![alt text](https://github.com/nitishnalan/walmart-labs-products-api/blob/master/Architecture%20diagram.PNG)
+
+# Class Diagram:
+![alt text](https://github.com/nitishnalan/walmart-labs-products-api/blob/master/Class%20Diagram.PNG)
     
+# Technology Stack Used:
+  - Maven
+  - Java Spring Boot - Framework.
+  - HSQLDB used as In-Memory database to store the products.
+  - JUnit & Mockito used for Unit Testing.
+  - Swagger used for API documentation.
+
+# Prerequisite for this project
+  - Java version 8
+  - Maven
+  
+# How to setup this application:
+  1. git clone the given repository in your system.
+  2. Go to the project path where you can find the pom.xml
+  3. To run the test cases execute "mvn test" in the command prompt
+  4. Use the maven run command to run the project "mvn spring-boot:run".
+  5. Refer Swagger Documentation: http://localhost:8080/walmartlabsapi/swagger-ui.html#/search-client-controller
   
 
