@@ -6,16 +6,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 import org.walmart.models.Product;
 import org.walmart.models.RestClientProducts;
+import org.walmart.repository.ProductRepositoryImplTest;
 
 @Profile("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 
 public class DataLoaderServiceTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataLoaderServiceTest.class);
 
     @Mock
     RestTemplate restTemplate;
@@ -25,6 +30,7 @@ public class DataLoaderServiceTest {
 
     @Before
     public void setUp(){
+        logger.info("setting up DataLoaderServiceTest class: ");
         restTemplate = new RestTemplate();
         dataLoaderService = new DataLoaderService(restTemplate);
     }
@@ -39,7 +45,7 @@ public class DataLoaderServiceTest {
     public void checkIf_Walmart_API_returnsProducts_WithInCorrectParameters_Test(){
         try{
             dataLoaderService.fetchRestClientProducts(1,-30);
-//            Assert.fail("Unexpected Response for incorrect product count!");
+
         }catch(Exception e){
             Assert.assertEquals(e.getMessage().contains("\"pageSize\" must be larger than or equal to 1 "), true);
         }

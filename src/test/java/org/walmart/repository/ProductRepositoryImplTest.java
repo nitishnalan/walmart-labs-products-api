@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,7 +18,6 @@ import org.walmart.models.SearchAndFilterRequest;
 import org.walmart.restapi.RestApiApplicationTests;
 
 import javax.annotation.Resource;
-
 import java.io.*;
 import java.util.List;
 
@@ -27,6 +28,8 @@ import java.util.List;
         loader = AnnotationConfigContextLoader.class)
 
 public class ProductRepositoryImplTest extends RestApiApplicationTests {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductRepositoryImplTest.class);
 
     @Resource
     private ProductRepository productRepository;
@@ -52,14 +55,11 @@ public class ProductRepositoryImplTest extends RestApiApplicationTests {
 
             String jsonData = stringBuilder.toString();
 
-            System.out.println(jsonData);
-
             List<Product> productArray = mapper.readValue(jsonData, new TypeReference<List<Product>>(){});
 
-            System.out.println(productArray.size());
+            logger.info("The size of the product array to be inserted in the test DB is {}:", productArray.size());
 
             for(Product p : productArray){
-                System.out.println(p.getProductId());
                 productRepository.save(p);
             }
 
