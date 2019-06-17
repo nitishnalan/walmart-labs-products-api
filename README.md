@@ -75,4 +75,25 @@ Please create a repo for your project. Please keep it tidy as we will go over yo
   4. Use the maven run command to run the project "mvn spring-boot:run".
   5. Refer Swagger Documentation: http://localhost:8080/walmartlabsapi/swagger-ui.html#/search-client-controller
   
+# Sample Request & Response:
+ - GET Request url: http://localhost:8080/walmartlabsapi/searchClient?inStock=true&maxPrice=10&maxReviewRating=4.45&search=hdmi
+```
+[
+  {
+    "productId": "66ad1d64-7930-41a3-be2d-167480ce9f16",
+    "productName": "VIZIO 12' and 6' Premium High-Speed HDMI Cables",
+    "shortDescription": "VIZIO TXCHMD-C1K 12 Ft & 6Ft Premium High-Speed HDMI® Cable",
+    "longDescription": "This combo pack of 12' & 6' HDMI® cable can be used for high definition video and audio. The 1080p and 4k x 2k Ultra High Definition capabilities are ideal for bringing sports, movies and games to life in vivid detail on your HDTV. It also supports 7.1",
+    "price": "$6.71",
+    "productImage": "/images/image7.jpeg",
+    "priceFloat": 6.71,
+    "reviewRating": 4.4286,
+    "reviewCount": 7,
+    "inStock": true
+  }
+]
+```
+
+ - Similarly you can use any combination of search and filter request to fetch the data. If there is any error binding the data then you shall receive a bad request error.
+  
 
