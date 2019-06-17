@@ -2,6 +2,22 @@ package org.walmart.models;
 
 import javax.persistence.*;
 
+/**
+ * Model class for Product class which represents each Product
+ *
+ * @param productId It represents ID of a particular product
+ * @param productName It represents the name of the product
+ * @param shortDescription It represents a short description of the product
+ * @param longDescription It represent a long description of the product
+ * @param price It represents string value of the price
+ * @param productImage It represents image for the product which has to be appended to "https://mobile-tha-server.firebaseapp.com" for fetching the image
+ * @param priceFloat It represents the float value of the price
+ * @param reviewRating It represents review rating for the product
+ * @param reviewCount It represents total number of the reviews for the product
+ * @param inStock It represents whether the product is in stock or not
+ *
+ */
+
 @Entity
 @Table(name = "products_master",
         indexes = {

@@ -3,6 +3,18 @@ package org.walmart.models;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+/**
+ * Model class for Get Request parameter
+ * @param search It represents the search keyword
+ * @param minPrice It represents the minimum price of the product
+ * @param maxPrice It represents the maximum price of the product
+ * @param minReviewRating It represents the minimum review rating of the product
+ * @param maxReviewRating It represents the maximum review rating of the product
+ * @param minReviewCount It represents the minimum review rating count of the product
+ * @param maxReviewCount It represent the maximum review rating count of the product
+ * @param inStock It represents whether the product is in stock or not
+ */
+
 public class SearchAndFilterRequest {
     public SearchAndFilterRequest() {
     }

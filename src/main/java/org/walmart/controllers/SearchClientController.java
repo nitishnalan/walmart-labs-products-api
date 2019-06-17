@@ -17,6 +17,9 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller responsible for retrieving data based on the search keyword and different filter combinations
+ */
 @RestController
 public class SearchClientController {
 
@@ -24,6 +27,13 @@ public class SearchClientController {
 
     @Autowired
     ProductRepository productRepository;
+
+    /**
+     * This method accepts the request in SearchAndFilterRequest model format
+     * @param searchAndFilterRequestBody
+     * @param bindingResult
+     * @return
+     */
 
     @GetMapping("/searchClient")
     @Cacheable(value = "cacheProducts", key = "#searchAndFilterRequestBody.toString()")

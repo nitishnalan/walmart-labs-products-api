@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Repository Implementation class for ProductRepository
+ */
+
 @Component
 public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
@@ -21,11 +25,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     @PersistenceContext
     private EntityManager entityManager;
 
-
-    public ProductRepositoryImpl(EntityManager entityManager){
-        this.entityManager = entityManager;
-    }
-
+    /**
+     * This method is responsible for generating query from the Get Request Parameter
+     * @param searchAndFilterRequestObj
+     * @return List of Products
+     */
     public List getSearchAndFilteredProducts(SearchAndFilterRequest searchAndFilterRequestObj){
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

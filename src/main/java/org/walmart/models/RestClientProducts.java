@@ -5,6 +5,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Model class is used as a rest template to fetch the data from the source url with a page number and number of products
+ * @param products It is the List of Product
+ * @param totalProducts It is the total number of the products which are available to be fetched
+ * @param pageNumber It represents the page number
+ * @param pageSize It represents total products on that page
+ * @param statusCode It represents status code for the request
+ *
+ */
+
 @Component
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestClientProducts {
