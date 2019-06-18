@@ -21,11 +21,11 @@ Please create a repo for your project. Please keep it tidy as we will go over yo
 
 # Assumptions & Strategies:
 
-  1. The idea here is the to load the data which available on "https://mobile-tha-server.firebaseapp.com/" in our In-Memory Database. I am using HSQLDB here as an in-Memory DB.
+  1. The idea here is to load the data which available on "https://mobile-tha-server.firebaseapp.com/" into our In-Memory Database. I am using HSQLDB here as an in-Memory DB.
   2. Assuming the data needs to be refreshed every 3 hours, I have scheduled the DataLoaderService to run every 3 hours.
-  3. Since the product data contains html tags, I am sanitized the short description and the long description of the product data 
+  3. Since the product data contains html tags, I am sanitizing the short description and the long description of the product data 
   by removing the html tags.
-  4. Since we receive the price in string format with '$' and ',' characters, I am removing those characters from the price and storing the price in float format. This new attribute "priceFloat" will be used while filtering the data using minPrice or maxPrice.
+  4. Since we receive the price in string format with '$' and ',' characters, I am removing these characters from the price and storing the price in float format. This new attribute "priceFloat" will be used while filtering the data using minPrice or maxPrice.
   
   5. Assumptions for each fields in request parameter:<br/>
     - **search by keyword**: It accepts string and would search the attributes productName, shortDescription or longDescription to find the products which contain this keyword. <br/>
@@ -34,12 +34,12 @@ Please create a repo for your project. Please keep it tidy as we will go over yo
     - **filter by minimum review rating**: It accepts any number between 0 to 5, and would apply filter on reviewRating attribute.<br/>
     - **filter by maximum review rating**: It accepts any number between 0 to 5, and would apply filter on revewRating attribute.<br/>
     - **filter by minimum review count**: It accepts number greater than equal to 0, and would apply filter on reviewCount attribute.<br/>
-    - **filter by maximum review count**: It accpets number greater than equal to 0. <br/>
+    - **filter by maximum review count**: It accepts number greater than equal to 0. <br/>
     - **filter by in stock**: It accepts a boolean value. <br/>
     
    6. Testing Strategy: <br/>
     - I have used JUnit and Mockito for Unit Testing. <br/>
-    - To test my ProductRepositoryImpl class, I am using a test DB which configured using ProductJpaConfig.class in "org.walmart.config" in the test folder.<br/>
+    - To test my ProductRepositoryImpl class, I am using a test DB which is configured using ProductJpaConfig.class in "org.walmart.config" package, which is in the test module.<br/>
     - ProductJpaConfig.class reads the database configurations from the application.properties file and reads the dummy products data from the "productRepoTestFile.txt" which is present inside the "resourcesForTesting" folder inside the test module.<br/>
     
    7. Caching Strategy: <br/>
